@@ -1,0 +1,36 @@
+{
+  "city_data": {
+    "Sector_A": [["Sector_B", 108], ["Sector_C", 145], ["Sector_D", 95]],
+    "Sector_B": [["Sector_A", 108], ["Sector_E", 120], ["Sector_F", 85]],
+    "Sector_C": [["Sector_A", 145], ["Sector_D", 70], ["Sector_G", 160]],
+    "Sector_D": [["Sector_A", 95], ["Sector_C", 70], ["Sector_E", 80], ["Sector_H", 110]],
+    "Sector_E": [["Sector_B", 120], ["Sector_D", 80], ["Sector_I", 130], ["Sector_F", 90]],
+    "Sector_F": [["Sector_B", 85], ["Sector_E", 90], ["Sector_J", 100]],
+    "Sector_G": [["Sector_C", 160], ["Sector_H", 75], ["Sector_K", 140]],
+    "Sector_H": [["Sector_D", 110], ["Sector_G", 75], ["Sector_I", 65], ["Sector_L", 150]],
+    "Sector_I": [["Sector_E", 130], ["Sector_H", 65], ["Sector_J", 80], ["Sector_M", 115]],
+    "Sector_J": [["Sector_F", 100], ["Sector_I", 80], ["Sector_N", 125]],
+    "Sector_K": [["Sector_G", 140], ["Sector_L", 95], ["Sector_Z", 210]],
+    "Sector_L": [["Sector_H", 150], ["Sector_K", 95], ["Sector_M", 85], ["Sector_Z", 160]],
+    "Sector_M": [["Sector_I", 115], ["Sector_L", 85], ["Sector_N", 70], ["Sector_Z", 130]],
+    "Sector_N": [["Sector_J", 125], ["Sector_M", 70], ["Sector_Z", 180]],
+    "Sector_Z": [["Sector_K", 210], ["Sector_L", 160], ["Sector_M", 130], ["Sector_N", 180]]
+  },
+  "city_coordinates": {
+    "Sector_A": [50, 300],
+    "Sector_B": [120, 380],
+    "Sector_C": [150, 200],
+    "Sector_D": [130, 280],
+    "Sector_E": [200, 320],
+    "Sector_F": [200, 420],
+    "Sector_G": [280, 180],
+    "Sector_H": [240, 250],
+    "Sector_I": [300, 330],
+    "Sector_J": [310, 430],
+    "Sector_K": [450, 150],
+    "Sector_L": [400, 240],
+    "Sector_M": [420, 340],
+    "Sector_N": [430, 440],
+    "Sector_Z": [550, 300]
+  }
+}
