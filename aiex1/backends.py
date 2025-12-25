@@ -58,42 +58,43 @@ from collections import deque
 # 新的城市连接与路径距离 (Edge Costs)
 # 这里的距离略大于两点间的直线距离，模拟真实道路
 city_data = {
-    'Sector_A': [('Sector_B', 108), ('Sector_C', 145), ('Sector_D', 95)],
-    'Sector_B': [('Sector_A', 108), ('Sector_E', 120), ('Sector_F', 85)],
-    'Sector_C': [('Sector_A', 145), ('Sector_D', 70), ('Sector_G', 160)],
-    'Sector_D': [('Sector_A', 95), ('Sector_C', 70), ('Sector_E', 80), ('Sector_H', 110)],
-    'Sector_E': [('Sector_B', 120), ('Sector_D', 80), ('Sector_I', 130), ('Sector_F', 90)],
-    'Sector_F': [('Sector_B', 85), ('Sector_E', 90), ('Sector_J', 100)],
-    'Sector_G': [('Sector_C', 160), ('Sector_H', 75), ('Sector_K', 140)],
-    'Sector_H': [('Sector_D', 110), ('Sector_G', 75), ('Sector_I', 65), ('Sector_L', 150)],
-    'Sector_I': [('Sector_E', 130), ('Sector_H', 65), ('Sector_J', 80), ('Sector_M', 115)],
-    'Sector_J': [('Sector_F', 100), ('Sector_I', 80), ('Sector_N', 125)],
-    'Sector_K': [('Sector_G', 140), ('Sector_L', 95), ('Sector_Z', 210)],
-    'Sector_L': [('Sector_H', 150), ('Sector_K', 95), ('Sector_M', 85), ('Sector_Z', 160)],
-    'Sector_M': [('Sector_I', 115), ('Sector_L', 85), ('Sector_N', 70), ('Sector_Z', 130)],
-    'Sector_N': [('Sector_J', 125), ('Sector_M', 70), ('Sector_Z', 180)],
-    'Sector_Z': [('Sector_K', 210), ('Sector_L', 160), ('Sector_M', 130), ('Sector_N', 180)]
-}
+    "Sector_A": [["Sector_B", 108], ["Sector_C", 145], ["Sector_D", 95]],
+    "Sector_B": [["Sector_A", 108], ["Sector_E", 120], ["Sector_F", 85]],
+    "Sector_C": [["Sector_A", 145], ["Sector_D", 70], ["Sector_G", 160]],
+    "Sector_D": [["Sector_A", 95], ["Sector_C", 70], ["Sector_E", 80], ["Sector_H", 110]],
+    "Sector_E": [["Sector_B", 120], ["Sector_D", 80], ["Sector_I", 130], ["Sector_F", 90]],
+    "Sector_F": [["Sector_B", 85], ["Sector_E", 90], ["Sector_J", 100]],
+    "Sector_G": [["Sector_C", 160], ["Sector_H", 75], ["Sector_K", 140]],
+    "Sector_H": [["Sector_D", 110], ["Sector_G", 75], ["Sector_I", 65], ["Sector_L", 150]],
+    "Sector_I": [["Sector_E", 130], ["Sector_H", 65], ["Sector_J", 80], ["Sector_M", 115]],
+    "Sector_J": [["Sector_F", 100], ["Sector_I", 80], ["Sector_N", 125]],
+    "Sector_K": [["Sector_G", 140], ["Sector_L", 95], ["Sector_Z", 210]],
+    "Sector_L": [["Sector_H", 150], ["Sector_K", 95], ["Sector_M", 85], ["Sector_Z", 160]],
+    "Sector_M": [["Sector_I", 115], ["Sector_L", 85], ["Sector_N", 70], ["Sector_Z", 130]],
+    "Sector_N": [["Sector_J", 125], ["Sector_M", 70], ["Sector_Z", 180]],
+    "Sector_Z": [["Sector_K", 210], ["Sector_L", 160], ["Sector_M", 130], ["Sector_N", 180]]
+  }
 
 # 新的城市坐标 (Heuristics)
 # 基于 600x600 的虚拟网格
 city_coordinates = {
-    'Sector_A': (50, 300),   # 起点附近
-    'Sector_B': (120, 380),
-    'Sector_C': (150, 200),
-    'Sector_D': (130, 280),
-    'Sector_E': (200, 320),
-    'Sector_F': (200, 420),
-    'Sector_G': (280, 180),
-    'Sector_H': (240, 250),
-    'Sector_I': (300, 330),
-    'Sector_J': (310, 430),
-    'Sector_K': (450, 150),
-    'Sector_L': (400, 240),
-    'Sector_M': (420, 340),
-    'Sector_N': (430, 440),
-    'Sector_Z': (550, 300)   # 终点附近
-}
+    "Sector_A": [50, 300],
+    "Sector_B": [120, 380],
+    "Sector_C": [150, 200],
+    "Sector_D": [130, 280],
+    "Sector_E": [200, 320],
+    "Sector_F": [200, 420],
+    "Sector_G": [280, 180],
+    "Sector_H": [240, 250],
+    "Sector_I": [300, 330],
+    "Sector_J": [310, 430],
+    "Sector_K": [450, 150],
+    "Sector_L": [400, 240],
+    "Sector_M": [420, 340],
+    "Sector_N": [430, 440],
+    "Sector_Z": [550, 300]
+  }
+
 class Romania():
     def __init__(self):
         self.G = nx.Graph()
@@ -288,126 +289,6 @@ class Romania():
             'time': runningTime
         }
 
-
-
-# 广度优先搜索
-def BFS(graph, start, goal):
-    queue = [(start, [start])]
-    nodes_expanded = []
-
-    while queue:
-        (current, path) = queue.pop(0)
-        nodes_expanded.append(current)
-        for next_city in set(graph.neighbors(current)) - set(path):
-            if next_city == goal:
-                total_cost = sum(graph.get_edge_data(path[i], path[i + 1])['weight'] for i in range(len(path) - 1))
-                return {'path': path, 'nodes_expanded': nodes_expanded, 'total_cost': total_cost}
-            else:
-                queue.append((next_city, path + [next_city]))
-
-    return None
-
-
-
-
-
-# 深度优先搜索
-def DFS(graph, start, goal):
-    visited = set()
-    stack = [(start, [start])]
-    nodes_expanded = 0
-    while stack:
-        nodes_expanded += 1
-        (current, path) = stack.pop()  # 使用栈，从栈顶移除元素
-        if current not in visited:  # 检查当前节点是否已被访问
-            visited.add(current)
-            if current == goal:
-                total_cost = sum(graph.get_edge_data(path[i], path[i + 1])['weight'] for i in range(len(path) - 1))
-                return {'path': path, 'nodes_expanded': nodes_expanded, 'total_cost': total_cost}
-            else:
-                for next_city in graph.neighbors(current):  # 遍历所有邻居
-                    if next_city not in visited:  # 只考虑未访问过的邻居
-                        stack.append((next_city, path + [next_city]))  # 将邻居和路径压入栈
-
-    return None  # 如果没有找到路径，则返回None
-
-
-def heuristic(a, b):
-    # 使用欧几里得距离作为启发式函数
-    return ((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) ** 0.5
-
-
-def A_star(graph, start, goal, coordinates):
-    # 创建优先队列
-    pq = []
-    heapq.heappush(pq, (0, 0, start, [start]))  # (total_cost, new_cost, current, path)
-    leastCost = float('inf')
-    leastPath  = []
-    visited = set()
-    nodes_expanded = []
-    while pq:
-        _, current_weight, current, path = heapq.heappop(pq)
-        nodes_expanded.append(current) 
-        if current == goal:
-            total_cost = sum(graph.get_edge_data(path[i], path[i + 1])['weight'] for i in range(len(path) - 1))
-            if total_cost<= leastCost:
-                leastCost = total_cost
-                leastPath = path
-            
-        if current not in visited:
-            visited = path
-            for next_city in graph.neighbors(current):
-                if next_city not in visited:
-                    new_cost = current_weight + graph.get_edge_data(current, next_city)['weight']  # g(n)
-                    heuristic_cost = heuristic(coordinates[next_city], coordinates[goal])  # h(n)
-                    total_cost = new_cost + heuristic_cost
-                    heapq.heappush(pq, (total_cost, new_cost, next_city, path + [next_city]))
-    nodes_expanded.append(goal)
-    nodes_expanded = set(nodes_expanded)
-    return {'path': leastPath, 'nodes_expanded': nodes_expanded, 'total_cost': leastCost}
-
-
-def main():
-    # 创建图
-    G = nx.Graph()
-
-    # 添加城市节点和边
-    for city, connections in city_data.items():
-        G.add_node(city, pos=city_coordinates[city])
-        for connection, weight in connections:
-            G.add_edge(city, connection, weight=weight)
-
-    # start, goal = 'Arad', 'Bucharest'
-    start, goal = 'Sector_A', 'Sector_E'
-
-    time1 = time.perf_counter()
-    result = BFS(G, start, goal)
-    time1 = time.perf_counter() - time1
-    print("**********BFS**********")
-    print("经过的节点数:", result['nodes_expanded'])
-    print("路径:", result['path'] + [goal])
-    print("总代价:", result['total_cost'])
-    print("时间:", time1)
-    print("")
-
-    time1 = time.perf_counter()
-    result = DFS(G, start, goal)
-    time1 = time.perf_counter() - time1
-    print("**********DFS**********")
-    print("经过的节点数:", result['nodes_expanded'])
-    print("路径:", result['path'] + [goal])
-    print("总代价:", result['total_cost'])
-    print("时间:", time1)
-    print("")
-
-    time1 = time.perf_counter()
-    result = A_star(G, start, goal, city_coordinates)
-    time1 = time.perf_counter() - time1
-    print("**********A_star**********")
-    print("经过的节点数:", result['nodes_expanded'])
-    print("路径:", result['path'])
-    print("总代价:", result['total_cost'])
-    print("时间:", time1)
 
 def vis():
     r = Romania()

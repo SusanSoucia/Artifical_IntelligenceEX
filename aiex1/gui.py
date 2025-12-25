@@ -9,7 +9,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 root = tk.Tk()
-print(font.families())
 root.title("Romania")
 r = None
 
